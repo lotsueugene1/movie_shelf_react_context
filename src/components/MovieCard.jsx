@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { useMovieList } from '../context/MovieContext';
 
 function MovieCard({ movie }) {
   const [isFavorite, setIsFavorite] = useState(false);
