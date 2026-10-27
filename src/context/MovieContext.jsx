@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 
 // 1. Create the Context
 const MovieListContext = createContext();
@@ -14,7 +14,17 @@ export function useMovieList() {
 
 // 3. Create the Provider component
 export function MovieListProvider({ children }) {
-  const [movieList, setMovieList] = useState([]);
+    // Initialize state from localStorage
+    const [movieList, setMovieList] = useState(() => {
+    const saved = localStorage.getItem('movieList');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Save to localStorage whenever movieList changes 
+  useEffect(() => { 
+    localStorage.setItem('movieList', JSON.stringify(movieList)); 
+  }, [movieList]);
+
 
   const addToMovieList = (movie) => {
     if (!movieList.some(r => r.id === movie.id)) {
